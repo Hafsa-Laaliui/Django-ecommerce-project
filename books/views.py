@@ -44,4 +44,9 @@ def paymentComplete(request):
 		product=product
 	)
 	return JsonResponse('Payment completed!', safe=False)
-
+def about(request):
+    return render(request, 'about.html')
+def contact(request):
+    return render(request, 'contact.html')
+def home(request):
+    return render(request, 'home.html')

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block banner-slider2 %}
+<style>
+  .carousel-inner {
+    position: relative;
+  }
+
+  .carousel-inner img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+  }
+
+  .about-text {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    text-align: center;
+  }
+</style>
+
+<div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'app/images/banner/slideraboutus.png' %}" class="d-block w-100" alt="Your Image Description">
+      <div class="about-text">
+        <h2>Welcome to Mazaar</h2>
+        <p>
+          As the founders of Mazaar, we are on a mission to share the magic of Morocco with the world. We believe that our homeland's rich heritage deserves to be celebrated and cherished, not just by Moroccans but by people from every corner of the globe.
+        </p>
+        <p>
+          Mazaar is an experience—a journey that transports you to the heart of Morocco with every click. As you browse through our aisles, you are greeted with a kaleidoscope of colors, patterns, and scents that evoke the bustling souks and lively streets of our homeland.
+        </p>
+        <p>
+          Our vision is to seamlessly blend tradition with modernity, offering products that honor our cultural heritage while embracing the spirit of innovation. Our collection is a fusion of old-world charm and contemporary flair—a reflection of Morocco's dynamic spirit and enduring allure.
+        </p>
+        <p>
+          Our journey is far from over. Every day, we continue to weave new tales, forge new connections, and spread the magic of Morocco to every corner of the globe. So come, join us on this adventure—a journey to the land of wonders, where every purchase is a step closer to experiencing the true essence of Morocco. Welcome to Mazaar—where tradition meets modernity.
+        </p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock banner-slider2 %}
