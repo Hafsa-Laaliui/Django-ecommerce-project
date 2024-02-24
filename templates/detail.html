@@ -1,35 +1,185 @@
-
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
+<style>
+    /* CSS styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .cart-item {
+        display: flex;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 100px;
+    }
+    .cart-item img {
+        width: 200px;
+        height: auto;
+        margin-right: 100px;
+    }
+    .cart-item-details {
+        flex: 1;
+    }
+    .cart-item-details h3 {
+        margin: 0 0 30px 0;
+    }
+    .cart-item-details p {
+        margin: 0;
+        color: #777;
+    }
+    .cart-item-details .quantity {
+        margin-top: 10px;
+    }
+    .cart-total {
+        text-align: right;
+        margin-top: 20px;
+    }
+    .cart-total h3 {
+        margin: 0;
+    }
+    .checkout-btn {
+        display: block;
+        width: 50%;
+        padding: 5px 0;
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .checkout-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
 
-<br>
-<div class="card mb-3" style="max-width: 840px;">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="{{ object.image_url }}" class="card-img">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h4 class="card-title">{{ object.title }}</h4>
-          <p class="card-text">Author: {{ object.author }}</p><hr>
-          <p class="card-text">{{ object.description }}</p>
+<style>
+  /* CSS styles for the button */
+  .checkout-btn {
+      display: inline-block;
+      padding: 6px 10px; /* Adjust padding to make the button smaller */
+      background-color: white;
+      color: black;
+      border: 2px solid black;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 14px; /* Adjust font size */
+  }
+  
+  /* Styles for when the button is hovered over */
+  .checkout-btn:hover {
+      background-color: black;
+      color: white;
+  }
+
+  /* Styles for when the button is clicked */
+  .checkout-btn:active {
+      background-color: black;
+      color: white;
+  }
+</style>
+
+<style>
+  /* CSS styles for the quantity input */
+  .quantity {
+      width: 50px; /* Adjust the width of the input field */
+      padding: 5px; /* Add padding for better spacing */
+      border: 1px solid #ccc; /* Add border */
+      border-radius: 4px; /* Add border radius for rounded corners */
+      margin-right: 10px; /* Add margin to separate from other elements */
+  }
+</style>
+<style>
+  /* CSS styles for the bold line */
+  .bold-line {
+      border: none; /* Remove default border */
+      border-top: 3px solid black !important;  /* Add top border with desired thickness and color */
+      margin: 20px 0; 
+      color: black;
+
+  }
+</style>
+
+<h1>Add to Cart</h1>
+<div class="container">
+    <div class="cart-item">
+        <img src="{{ object.image.url }}" class="cart-item-img">
+        <div class="cart-item-details">
+            <h3>{{ object.title }}</h3>
+            <p> {{ object.description }}</p>
+            <hr class="bold-line">
+            <p><strong>Category :</strong>  {{ object.category }}</p>
+            <p class="price">
+                {% if object.discounted_price %}
+                    <span style="color: #FFD700; text-decoration: none;"><strong>Price :</strong>  {{ object.discounted_price|floatformat:2 }} <strong>MAD</strong></span>
+                    <strong style="text-decoration: line-through;"><strong>Price :</strong>  {{ object.selling_price|floatformat:2 }} <strong>MAD</strong></strong>
+                {% else %}
+                <strong>Price :</strong>  {{ object.selling_price|floatformat:2 }} <strong>MAD</strong>
+                {% endif %}
+            </p>
+            {% if object.available %}
+                <form id="add-to-cart-form" method="post" action="{% url 'add_to_cart' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ object.id }}">
+                    <hr class="bold-line">
+                    <label for="quantity"> <strong>Quantity:</strong> </label>
+                    <input type="number" name="quantity" value="1" min="1" class="quantity">
+
+                                        <button type="submit" class="checkout-btn">Add to Cart</button>
+                  </form>
+            {% else %}
+                <h4 class="text-danger">Out of Stock!</h4>
+            {% endif %}
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-<!-- <p>Follow Author: </p> -->
-<p><a href="{{ object.follow_author }}">Follow Author</a> </p>
-<p>Price: $ {{ object.price|floatformat:2 }}</p>
-
-
-{% if object.book_available is True %}
-<a href="{% url 'checkout' object.pk %}" class="btn btn-outline-success" role="button">Buy Now</a>
-{% else %}
-<h4 class="text-danger">Out of Stock !</h4>
-{% endif %}
+<script>
+    // Submit form asynchronously
+    document.getElementById("add-to-cart-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        var formData = new FormData(this); // Get form data
+        fetch(this.action, { // Fetch API to submit form data
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error adding item to cart');
+            }
+        })
+        .then(data => {
+            // Redirect to cart page
+            window.location.href = "{% url 'view_cart' %}";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
 
 {% endblock content %}
-

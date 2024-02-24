@@ -1,18 +1,102 @@
+{% extends 'base.html' %}
 
-{% extends "base.html" %}
-
-{% block title %}Log In{% endblock title %}
+{% block title %}Login - Your Site{% endblock %}
 
 {% block content %}
+<style>
+    /* styles.css */
+/* ... previous styles ... */
 
-<h3>Log In</h3>
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-<form method = "post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type = "submit" class = 'btn btn-success'>Log In</button>
-    <a class = "btn btn-outline-info" href = "{% url 'signup' %}" role = "button">Create Account</a>    
-</form>
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
 
+h2 {
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    color: #000;
+    text-align: center; /* Center the text within the container */
+}
 
-{% endblock content %}
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; /* Ensure labels are on a new line */
+}
+
+input {
+    padding: 12px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Light gray background */
+    color: #333; /* Dark text color */
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+}
+
+button {
+    padding: 12px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #000000;
+}
+
+/* Add additional styles as needed */
+
+/* ... remaining styles ... */
+
+</style>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="error-message">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+{% endblock %}

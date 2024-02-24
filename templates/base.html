@@ -17,8 +17,11 @@
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/registration.css' %}" />
     <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/about.us.css' %}" />
+
+
+
     <!--Corrected custom stylesheet link-->
 
  <!--Custom Styling for Bootstrap Dropdown Hover-->
@@ -60,7 +63,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-            <img src="{% static 'app/images/download (4).jpg' %}" alt="Your Logo" width="60" height="60" class="d-inline-block align-top">
+            <img src="{% static 'images/download (6).jpg' %}" alt="Your Logo" width="60" height="60" class="d-inline-block align-top">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,35 +74,28 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home'%}">Home</a>
 
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
-                    </a>
-                    <ul class="dropdown-menu">
+                     <!-- Categories dropdown -->
                         <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Bags</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Hats</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Jewelry</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Lamps</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Table Art</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Living Room</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Women</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item" href="#">Men</a></li>
-                    </ul>
-                              </li>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for category in categories %}
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-item" href="{% url 'list' category.id %}">{{ category.name }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                        </li>
+
+      </li>
 
                             <li class="nav-item mx-2">
                                 <a class="nav-link text-white" href="{% url 'about'%}">About Us</a>
                             </li>
                             <li class="nav-item mx-2">
-                                <a class="nav-link text-white" href="{% url 'contact'%}">Contact Us</a>
+                                <a class="nav-link text-white" href='{% url 'contact'%}'>Contact Us</a>
                             </li>
                     </ul>
 
@@ -119,8 +115,10 @@
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="#">
+                        <a class="nav-link text-white" href="{% url 'view_cart' %}">
                             <i class="fas fa-shopping-cart"></i> <!-- Font Awesome shopping cart icon -->
+                            <span class="badge rounded-pill" style="background-color: white; color: black;">{{ cart|length }}</span>
+
                         </a>
                     </li>
                     <li class="nav-item mx-2">
@@ -128,25 +126,29 @@
                             <i class="fas fa-heart"></i> <!-- Font Awesome heart icon for Wishlist -->
                         </a>
                     </li>
-                    <!-- login conditions -->
-                    <div class="btn-group dropright">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            {{ user }}
-                        </a>
-                        <div class="dropdown-menu">
-                            {% if user.is_authenticated %}
-                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-                            {% else %}
-                                <a class="dropdown-item text-secondary" href="{% url 'login' %}">Log In</a>
-                                <a class="dropdown-item text-secondary" href="{% url 'signup' %}">Sign Up</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </ul>
+                     <!-- User dropdown -->
+                   <li class="nav-item dropdown">
+    {% if user.is_authenticated %}
+        <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ user.username }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+        </div>
+    {% else %}
+        <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            User
+        </a>
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="{% url 'register' %}">Sign Up</a>
+            <a class="dropdown-item" href="{% url 'login' %}">Log In</a>
+        </div>
+    {% endif %}
+</li>
 
-            </div>
-        </nav>
+
 
     </header>
 
@@ -164,18 +166,25 @@
         <p style="color: white;">&copy; Copyright 2024. Developed by Douae</p>
     </footer>
 </div>
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-</body>
+<script>
+    function fetchCartCount() {
+        fetch('{% url "cart_count" %}')
+            .then(response => response.json())
+            .then(data => {
+                // Update the cart count in the navbar
+                document.getElementById('cart-count').innerText = data.cart_count;
+            })
+            .catch(error => {
+                console.error('Error fetching cart count:', error);
+            });
+    }
+
+    // Call fetchCartCount initially when the page loads
+    fetchCartCount();
+
+    // Call fetchCartCount every 5 seconds
+    setInterval(fetchCartCount, 5000); // 5000 milliseconds = 5 seconds
+</script>
 
 </body>
 </html>

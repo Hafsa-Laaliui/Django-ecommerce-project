@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order History</title>
+    <style>
+        /* Add your CSS styles here */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order History</h1>
+    <ul>
+        {% for order in orders %}
+            <li>
+                <strong>Order ID:</strong> {{ order.id }}<br>
+                <strong>Created:</strong> {{ order.created }}<br>
+                <!-- Add more order details here -->
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

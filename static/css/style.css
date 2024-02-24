@@ -84,3 +84,10 @@
 .goodnesssec a{
     text-decoration: none;
 }
+
+.card{
+    --bs-card-inner-border-radius:calc(0.375rem -1px)
+}
+.card-img-top {
+    border-bottom-right-radius: var(--bs-card-inner-border-radius);
+}

@@ -26,11 +26,11 @@
 
 <body>
 	<div class="container">
-		{% if object.book_available is True %}
+		{% if object.available is True %}
 		<div class="row">
 			<div class="col-lg">
 				<br><div class="text-center" style="width: 22rem;">
-					<img src="{{ object.image_url }}" class="card-img">
+					<img src="{{ object.image.url }}" class="card-img">
 				  </div>
 			</div>
 			<div class="col-lg">
@@ -38,8 +38,15 @@
 				<div class="card card-body">
 					<h3>{{object.title}}</h3>
 					<hr>
-					<h4>Total: ${{object.price|floatformat:2}}</h4>
+					{% if object.discounted_price %}
+						<h4>Total: <span style="color: #FFD700;">{{ object.discounted_price|floatformat:2 }}  MAD</span></h4>
+						<hr>
+						<span style="text-decoration: line-through;">Original Price: {{ object.selling_price|floatformat:2 }}  MAD</span>
+					{% else %}
+						<h4>Total: {{ object.selling_price|floatformat:2 }}  MAD</h4>
+					{% endif %}
 					<hr>
+					
 
 					<div id="paypal-button-container"></div>
 
@@ -75,7 +82,7 @@
 		}
 		var csrftoken = getCookie('csrftoken');
 
-		var total = '{{object.price}}'
+		var total = '{{object.selling_price}}'
 		var productId = '{{object.id}}'
 
 		function completeOrder() {
@@ -122,7 +129,7 @@
 	{% else %}
 	</div>
 	<div class="mx-auto" style="width: 340px;">
-	<h4 class="text-danger">Sorry, this book is out of Stock !</h4>
+	<h4 class="text-danger">Sorry, this product is out of Stock !</h4>
 	{% endif %}
 </body>
 

@@ -7,25 +7,23 @@
     <div id="carouselExampleFade" class="carousel slide carousel-fade">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{% static 'app/images/banner/slider 1.png' %}" class="d-block w-100" alt="...">
+                <img src="{% static 'images/banner/slider 1.png' %}" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="{% static 'app/images/banner/slider 2.jpg' %}" class="d-block w-100" alt="...">
+                <img src="{% static 'images/banner/slider 2.jpg' %}" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="{% static 'app/images/banner/slider 3.jpg' %}" class="d-block w-100" alt="...">
+                <img src="{% static 'images/banner/slider 3.jpg' %}" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="{% static 'app/images/banner/slider4.jpg' %}" class="d-block w-100" alt="...">
+                <img src="{% static 'images/banner/slider4.jpg' %}" class="d-block w-100" alt="...">
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -33,15 +31,295 @@
 {% endblock banner_slider %}
 
 {% block content %}
-    <div class="container mt-4">
-        <h2>Welcome to your Tindy</h2>
-        <p>This is the home page content. You can customize it based on your requirements.</p>
 
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700,700i');
+body{
+  font-family: 'Muli', sans-serif;
+  background:#fff;
+}
+.shell{
+  padding:80px 0;
+}
+.wsk-cp-product{
+  background:#fff;
+  padding:15px;
+  border-radius:6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  position:relative;
+  margin:20px auto;
+}
+.wsk-cp-img{
+  position:absolute;
+  top:5px;
+  left:50%;
+  transform:translate(-50%);
+  -webkit-transform:translate(-50%);
+  -ms-transform:translate(-50%);
+  -moz-transform:translate(-50%);
+  -o-transform:translate(-50%);
+  -khtml-transform:translate(-50%);
+  width: 100%;
+  padding: 15px;
+  transition: all 0.2s ease-in-out;
+}
+.wsk-cp-img img{
+  width:100%;
+  transition: all 0.2s ease-in-out;
+  border-radius:6px;
+}
+.wsk-cp-product:hover .wsk-cp-img{
+  top:-40px;
+}
+.wsk-cp-product:hover .wsk-cp-img img{
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+.wsk-cp-text{
+  padding-top:150%;
+}
+.wsk-cp-text .category{
+  text-align:center;
+  font-size:12px;
+  font-weight:bold;
+  padding:5px;
+  margin-bottom:45px;
+  position:relative;
+  transition: all 0.2s ease-in-out;
+}
+.wsk-cp-text .category > *{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  -khtml-transform: translate(-50%,-50%);
+
+}
+.wsk-cp-text .category > span{
+  padding: 12px 30px;
+  border: 1px solid #313131;
+  background:#212121;
+  color:#fff;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  border-radius:27px;
+  transition: all 0.05s ease-in-out;
+
+}
+.wsk-cp-product:hover .wsk-cp-text .category > span{
+  border-color:#ddd;
+  box-shadow: none;
+  padding: 11px 28px;
+}
+.wsk-cp-product:hover .wsk-cp-text .category{
+  margin-top: 0px;
+}
+.wsk-cp-text .title-product{
+  text-align:center;
+}
+.wsk-cp-text .title-product h3{
+  font-size:20px;
+  font-weight:bold;
+  margin:15px auto;
+  overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  width:100%;
+}
+.wsk-cp-text .description-prod p{
+  margin:0;
+}
+/* Truncate */
+.wsk-cp-text .description-prod {
+  text-align:center;
+  width: 100%;
+  height:62px;
+  overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  margin-bottom:15px;
+}
+.card-footer{
+  padding: 25px 0 5px;
+  border-top: 1px solid #ddd;
+}
+.card-footer:after, .card-footer:before{
+  content:'';
+  display:table;
+}
+.card-footer:after{
+  clear:both;
+}
+
+.card-footer .wcf-left{
+  float:left;
+
+}
+
+.card-footer .wcf-right{
+  float:right;
+}
+
+.price{
+  font-size:18px;
+  font-weight:bold;
+}
+
+a.buy-btn{
+  display:block;
+  color:#212121;
+  text-align:center;
+  font-size: 18px;
+  width:35px;
+  height:35px;
+  line-height:35px;
+  border-radius:50%;
+  border:1px solid #212121;
+  transition: all 0.2s ease-in-out;
+}
+a.buy-btn:hover , a.buy-btn:active, a.buy-btn:focus{
+  border-color: #FF9800;
+  background: #fff;
+  color: #fff;
+  text-decoration:none;
+}
+.wsk-btn{
+  display:inline-block;
+  color:#212121;
+  text-align:center;
+  font-size: 18px;
+  transition: all 0.2s ease-in-out;
+  border-color: #FF9800;
+  background: #fff;
+  padding:12px 30px;
+  border-radius:27px;
+  margin: 0 5px;
+}
+.wsk-btn:hover, .wsk-btn:focus, .wsk-btn:active{
+  text-decoration:none;
+  color:#fff;
+
+@media screen and (max-width: 991px) {
+  .wsk-cp-product{
+    margin:40px auto;
+  }
+  .wsk-cp-product .wsk-cp-img{
+  top:-40px;
+}
+.wsk-cp-product .wsk-cp-img img{
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+  .wsk-cp-product .wsk-cp-text .category > span{
+  border-color:#ddd;
+  box-shadow: none;
+  padding: 11px 28px;
+}
+.wsk-cp-product .wsk-cp-text .category{
+  margin-top: 0px;
+}
+a.buy-btn{
+  border-color: #FF9800;
+  background: #fff;
+  color: #fff;
+}
+.h2{
+    font-weight: bold;
+}
+</style>
+<div class="container text-center">
+  <br></br>
+  <div class="container mt-30">
+    <h2 style="font-size: 45px; font-weight: bold; font-family: 'serif';">----------------------Featured Products----------------------</h2>
+  </div>
+</div>
+
+
+
+<div class="shell">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="wsk-cp-product">
+          <div class="wsk-cp-img">
+            <img src="https://i.pinimg.com/564x/1d/ba/b8/1dbab8268018296673ab2ec5d76073ea.jpg"alt="Product" class="img-responsive" />
+          </div>
+          <div class="wsk-cp-text">
+            <div class="category">
+              <span>Bags</span>
+            </div>
+            <div class="title-product">
+              <h3>Summer Bag</h3>
+            </div>
+            <div class="description-prod">
+              <p>Perfect Summer Basket Bag</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="wsk-cp-product">
+          <div class="wsk-cp-img"><img src="https://i.pinimg.com/564x/37/86/7a/37867ab796b7ff245ed09d3e17b60ddc.jpg" alt="Product" class="img-responsive" /></div>
+          <div class="wsk-cp-text">
+            <div class="category">
+              <span>Art Table</span>
+            </div>
+            <div class="title-product">
+              <h3>Table Ware</h3>
+            </div>
+            <div class="description-prod">
+              <p>Morrocan Traditional Tableware</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="wsk-cp-product">
+          <div class="wsk-cp-img"><img src="https://i.pinimg.com/564x/22/bd/d3/22bdd388c2c2331f51d3fbae9c73bfbe.jpg" alt="Product" class="img-responsive" /></div>
+          <div class="wsk-cp-text">
+            <div class="category">
+              <span>Lamps</span>
+            </div>
+            <div class="title-product">
+              <h3>LAMP</h3>
+            </div>
+            <div class="description-prod">
+              <p>Morrocan Vintage Lamps</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="wsk-cp-product">
+          <div class="wsk-cp-img"><img src="https://i.pinimg.com/564x/a9/b5/4c/a9b54cd4bf75f50a546988afde1efbd9.jpg" alt="Product" class="img-responsive" /></div>
+          <div class="wsk-cp-text">
+            <div class="category">
+              <span>Woman</span>
+            </div>
+            <div class="title-product">
+              <h3>TAKCHITA FASSIA</h3>
+            </div>
+            <div class="description-prod">
+              <p>Glamourous Morrocan Dresses</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}
-
-
-
-
-
-

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .cart-item-details {
+            flex: 1;
+        }
+        .cart-item-details h3 {
+            margin: 0 0 10px 0;
+        }
+        .cart-item-details p {
+            margin: 0;
+            color: #777;
+        }
+        .cart-item-details .quantity {
+            margin-top: 10px;
+        }
+        .cart-total {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .cart-total h3 {
+            margin: 0;
+        }
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .checkout-btn:hover {
+            background-color: #0056b3;
+        }
+        .update-btn {
+            cursor: pointer;
+            color: #007bff;
+            margin-left: 10px;
+        }
+        .remove-btn, .add-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+        .add-btn {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}">
+                    <div class="cart-item-details">
+                        <h3>{{ item.product.title }}</h3>
+                        <p>Price: {{ item.product.price }}</p>
+                        <p>Quantity: <span id="quantity-{{ item.product.id }}">{{ item.quantity }}</span>
+                            <span class="update-btn remove-btn" data-id="{{ item.product.id }}" data-action="remove">Remove one</span>
+                            <span class="update-btn add-btn" data-id="{{ item.product.id }}" data-action="add">Add one more</span>
+                        </p>
+                        <p>Total: {{ item.total }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="cart-total">
+                <h3>Total: {{ total_price }}</h3>
+            </div>
+            <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        document.querySelectorAll('.update-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var productId = this.getAttribute('data-id');
+                var action = this.getAttribute('data-action');
+                var quantityElem = document.getElementById('quantity-' + productId);
+                var quantity = parseInt(quantityElem.innerText);
+
+                if (action === 'add') {
+                    quantity += 1;
+                } else if (action === 'remove' && quantity > 1) {
+                    quantity -= 1;
+                }
+
+                quantityElem.innerText = quantity;
+            });
+        });
+    </script>
+</body>
+</html>

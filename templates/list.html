@@ -1,31 +1,55 @@
-
 {% extends 'base.html' %}
 
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
 {% block content %}
-
-
-<hr>
-
-
-<div class="row">
-    {% for each in object_list %}
-    <div class="col">
-        <div class="card" style="width: 13rem;">
-            <img src="{{ each.image_url }}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ each.title|slice:":25"}} ...</h5>
-                <p class="card-text">${{ each.price|floatformat:2 }}</p>                
-                {% if each.book_available is True %}
-                <li class="text-primary">Available</li>
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a href="{% url 'home' %}" style="color: black; font-weight: bold; text-decoration: none;">Home</a>
+                <span class="mx-2 mb-0">/</span> 
+                {% if category %}
+                    <strong>{{ category.name }}</strong>
                 {% else %}
-                <li class="text-danger">Out of Stock !</li>
-                {% endif %}<br>
-                <a href="{% url 'detail' each.id %}" class="btn btn-primary">View</a>
+                    Products
+                {% endif %}
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
 
-{% endblock content %}
-
+<div class="container mt-4">
+    <div class="row">
+        {% for each in object_list %}
+            <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                <div class="block-4 text-center border">
+                    <figure class="block-4-image">
+                        <img src="{{ each.image.url }}" alt="Image placeholder" class="img-fluid" style="height: 10vw;">
+                    </figure>
+                    <div class="block-4-text p-4">
+                        <h3 style="font-size: 20px;">{{ each.title|slice:":25"}} </h3>
+                        <p>
+                            {% if each.discounted_price %}
+                                <span style="color: #FFD700; text-decoration: none; display: block;">{{ each.discounted_price|floatformat:2 }}   <strong>MAD</strong></span>
+                                <strong style="text-decoration: line-through; display: block;">{{ each.selling_price|floatformat:2 }}   <strong>MAD</strong></strong>
+                            {% else %}
+                                {{ each.selling_price|floatformat:2 }}   <strong>MAD</strong>
+                            {% endif %}
+                        </p>
+                        {% if each.available %}
+                            <p class="text-primary">Available</p>
+                        {% else %}
+                            <p class="text-danger">Out of Stock !</p>
+                        {% endif %}
+                        <a href="{% url 'detail' each.id %}" class="btn btn-dark">View Details</a>
+                        
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
